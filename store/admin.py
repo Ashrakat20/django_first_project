@@ -1,4 +1,4 @@
-from itertools import count 
+from itertools import count
 from django.contrib import admin , messages
 from django.db.models import Count
 from django.urls import reverse
@@ -7,6 +7,11 @@ from . import models
 
 @admin.register(models.Product) # decorator for registering product model
 class ProductAdmin(admin.ModelAdmin): #product admin class that inherits from model admin
+    prepopulated_fields= {
+        'slug': ['title']
+        
+    }
+    autocomplete_fields=['collection']
     actions = ['clear_inventory']
     list_display=['title','unit_price','inventory_status','collection']
     list_editable =['unit_price']
@@ -32,7 +37,7 @@ class ProductAdmin(admin.ModelAdmin): #product admin class that inherits from mo
 @admin.register(models.Collections)
 class CollectionsAdmin(admin.ModelAdmin):
     list_display = ['title', 'product_count']
-
+    search_fields=['title']
     @admin.display(ordering='products_count')
     def product_count(self, collections):
         url = (
@@ -49,6 +54,7 @@ class CollectionsAdmin(admin.ModelAdmin):
 
 @admin.register(models.Customer) # decorator for registering customer model
 class CustomerAdmin(admin.ModelAdmin): #customer admin class that inherits from model admin
+    search_fields=['first_name','last_name']
     list_display=['first_name','last_name','membership','orders']
     list_editable=['membership']
     list_per_page = 10
@@ -67,4 +73,5 @@ class CustomerAdmin(admin.ModelAdmin): #customer admin class that inherits from 
 @admin.register(models.Order) # decorator for registering Order model
 class OrderAdmin(admin.ModelAdmin): #order admin class that inherits from model admin
     list_display=['id','placed_at','customer']
+    autocomplete_fields=['customer']
    
