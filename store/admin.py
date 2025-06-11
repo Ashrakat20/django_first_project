@@ -9,7 +9,6 @@ from . import models
 class ProductAdmin(admin.ModelAdmin): #product admin class that inherits from model admin
     prepopulated_fields= {
         'slug': ['title']
-        
     }
     autocomplete_fields=['collection']
     actions = ['clear_inventory']
@@ -70,8 +69,16 @@ class CustomerAdmin(admin.ModelAdmin): #customer admin class that inherits from 
 
     def get_queryset(self, request):
         return super().get_queryset(request).annotate(orders_count=Count('order'))
+
+class OrderItemInline(admin.TabularInline):
+    autocomplete_fields=['product']
+    model=models.OrderItem
+    extra = 0
+    min_num=1
+    max_num=10
+
 @admin.register(models.Order) # decorator for registering Order model
 class OrderAdmin(admin.ModelAdmin): #order admin class that inherits from model admin
     list_display=['id','placed_at','customer']
+    inlines=[OrderItemInline]
     autocomplete_fields=['customer']
-   
