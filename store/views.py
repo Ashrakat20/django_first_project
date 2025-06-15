@@ -31,8 +31,8 @@ class CollectionViewSet(ModelViewSet):
         queryset = Collections.objects.annotate(product_count=Count('products')).all()
         serializer_class = CollectionsSerializer
         def get_serializer_context(self):
-             return {'request':self.request}        
-        def delete(self, request, pk):
+             return  {'request':self.request}
+        def delete(self, request,pk):
             collection = get_object_or_404(Collections, pk=pk)
 
             if collection.product_set.exists():  # check if products exist in the collection
