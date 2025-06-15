@@ -16,15 +16,25 @@ def product_list(request):
     elif request.method == 'POST':  # <-- FIXED: 'POST' in uppercase
         serializer = ProductSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.validated_data  # You might want to save the data here
+        serializer.save()  # You might want to save the data here
         return Response('ok')
         
         
-@api_view()
+@api_view(['GET','PUT'])
 def product_detail(request,id):
-        product =get_object_or_404(Product,  pk=id)
+    """ Note: we moved product instance outside cause we need to use a product instance while 
+    updating object 
+    """
+    product =get_object_or_404(Product,  pk=id)
+    if request.method == 'GET':
         serializer= ProductSerializer(product)
         return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = ProductSerializer(product,data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()  # You might want to save the data here
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
 
 @api_view()
 def collection_detail(request,pk):
