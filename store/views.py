@@ -1,15 +1,11 @@
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
 from rest_framework import status
-from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework.generics import ListCreateAPIView , RetrieveUpdateDestroyAPIView
 from rest_framework.viewsets import ModelViewSet
-from .models import Product  , Collections
-from .serializer import ProductSerializer ,CollectionsSerializer
+from .models import Product  , Collections , Reviews
+from .serializer import ProductSerializer ,CollectionsSerializer,ReviewsSerializer
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
@@ -44,3 +40,9 @@ class CollectionViewSet(ModelViewSet):
             collection.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         
+class ReviewsViewSet(ModelViewSet):
+    queryset = Reviews.objects.all()
+    serializer_class = ReviewsSerializer
+    def get_serializer_context(self):
+        return {'request': self.request}
+ 
