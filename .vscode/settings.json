@@ -1,5 +1,8 @@
 {
     "python.analysis.extraPaths": [
         "./src/django-debug-toolbar"
+    ],
+    "cSpell.words": [
+        "filterset"
     ]
 }
