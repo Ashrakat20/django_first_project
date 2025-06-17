@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Count
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
-from rest_framework.mixins import CreateModelMixin,RetrieveModelMixin
+from rest_framework.mixins import CreateModelMixin,RetrieveModelMixin , DestroyModelMixin
 from rest_framework.filters import SearchFilter,OrderingFilter
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
@@ -61,7 +61,10 @@ class ReviewsViewSet(ModelViewSet):
     def get_serializer_context(self):
         return {'product_id': self.kwargs['product_pk']}
  
-class CartViewSet(CreateModelMixin,GenericViewSet,RetrieveModelMixin):
+class CartViewSet(CreateModelMixin,
+                  GenericViewSet,
+                  RetrieveModelMixin,
+                  DestroyModelMixin):
     queryset=Cart.objects.prefetch_related('items__product').all()
     serializer_class=CartSerializer
     
