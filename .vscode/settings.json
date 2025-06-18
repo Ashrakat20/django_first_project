@@ -3,6 +3,8 @@
         "./src/django-debug-toolbar"
     ],
     "cSpell.words": [
-        "filterset"
+        "djoser",
+        "filterset",
+        "simplejwt"
     ]
 }
