@@ -145,20 +145,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
+    )
 }
 
 AUTH_USER_MODEL='core.user'
-SIMPLE_JWT = {
-   'AUTH_HEADER_TYPES': ('JWT',),
-}
 DJOSER = {
     'SERIALIZERS':{
-        'user_create':'core.serializers.UserCreateSerializer'
+        'user_create':'core.serializers.UserCreateSerializer',
+        'current_user':'core.serializers.UserSerializer'
     }
 }
 
 
 SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT',),
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5)
 }
